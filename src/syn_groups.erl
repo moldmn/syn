@@ -305,12 +305,8 @@ code_change(_OldVsn, State, _Extra) ->
 %% ===================================================================
 -spec find_by_pid_and_name(Pid :: pid(), Name :: any()) -> Process :: #syn_groups_table{} | undefined.
 find_by_pid_and_name(Pid, Name) ->
-    %% build match specs
-    MatchHead = #syn_groups_table{name = Name, pid = Pid, _ = '_'},
-    Guards = [],
-    Result = '$_',
-    %% select
-    case mnesia:dirty_select(syn_groups_table, [{MatchHead, Guards, [Result]}]) of
+    Processes = mnesia:dirty_read(syn_groups_table, Name),
+    case [Process || #syn_groups_table{pid = P}=Process <- Processes, P == Pid] of
         [] -> undefined;
         [Process] -> Process
     end.
