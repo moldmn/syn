@@ -71,13 +71,13 @@ join(Name, Pid) ->
 
 -spec join(Name :: any(), Pid :: pid(), Meta :: any()) -> ok.
 join(Name, Pid, Meta) when is_pid(Pid) ->
-    Node = node(Pid),
-    gen_server:call({?MODULE, Node}, {join, Name, Pid, Meta}).
+    %Node = node(Pid),
+    gen_server:call(?MODULE, {join, Name, Pid, Meta}).
 
 -spec leave(Name :: any(), Pid :: pid()) -> ok | {error, pid_not_in_group}.
 leave(Name, Pid) when is_pid(Pid) ->
-    Node = node(Pid),
-    gen_server:call({?MODULE, Node}, {leave, Name, Pid}).
+    %Node = node(Pid),
+    gen_server:call(?MODULE, {leave, Name, Pid}).
 
 -spec member(Pid :: pid(), Name :: any()) -> boolean().
 member(Pid, Name) when is_pid(Pid) ->
